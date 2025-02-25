@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/slices/authSlice";
 import { RootState, AppDispatch } from "../redux/store/store";
+import { useNavigate } from "react-router";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, error } = useSelector((state: RootState) => state.auth);
-  
+  const navigate = useNavigate();
+  const { user, loading, error } = useSelector((state: RootState) => state.auth);
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -22,6 +24,17 @@ const Login: React.FC = () => {
     e.preventDefault();
     dispatch(loginUser(formData));
   };
+
+  // Redirect user based on role after login
+  useEffect(() => {
+    if (user?.role) {
+      if (user.role === "VALIDATOR") {
+        navigate("/validator-dashboard");
+      } else if (user.role === "REQUESTER") {
+        navigate("/requester-dashboard");
+      }
+    }
+  }, [user, navigate]);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
