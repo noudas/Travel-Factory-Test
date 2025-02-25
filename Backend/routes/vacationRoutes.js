@@ -48,5 +48,19 @@ router.get('/:id', authenticateToken, async (req, res) => {
 });
 
 router.put('/:id/approve', authenticateToken, async (req, res) => {
+    try {
+        if (req.user.role !== 'VALIDATOR') {
+            return res.status(403).json({ error: 'Forbidden' });
+        }
+        const request = await VacationController.approveRequest(
+            req.sql,
+            req.params.id
+        );
+        res.json(request);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
 
 module.exports = router;
