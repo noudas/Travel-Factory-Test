@@ -4,6 +4,7 @@ import { createRequest, fetchUserRequests } from "../redux/slices/requestSlice";
 import { RootState, AppDispatch } from "../redux/store/store";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
+import LogoutButton from "../components/LogoutButton";
 
 const RequesterDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -30,6 +31,7 @@ const RequesterDashboard: React.FC = () => {
 
   return (
     <div className="max-w-2xl mx-auto p-6">
+        <LogoutButton/>
       <h2 className="text-2xl font-bold mb-4">Submit Vacation Request</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input type="date" name="start_date" required value={formData.start_date} onChange={handleChange} />

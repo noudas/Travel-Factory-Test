@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllRequests } from "../redux/slices/requestSlice";
 import { RootState, AppDispatch } from "../redux/store/store";
 import { Button } from "../components/Button";
+import LogoutButton from "../components/LogoutButton";
 
 const ValidatorDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -18,6 +19,7 @@ const ValidatorDashboard: React.FC = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-6">
+        <LogoutButton/>
       <h2 className="text-2xl font-bold mb-4">Vacation Requests</h2>
       
       <select onChange={(e) => setFilter(e.target.value)} className="border p-2">
