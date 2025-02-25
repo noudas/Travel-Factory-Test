@@ -24,6 +24,24 @@ class UserController {
             res.status(500).json({ error: error.message });
         }
     }
+
+    static async logout(req, res) {
+        try {
+            // Clear the JWT cookie
+            clearTokenCookie(res);
+            
+            // Return success response
+            res.status(200).json({ 
+                message: 'Logged out successfully',
+                data: null 
+            });
+        } catch (error) {
+            res.status(500).json({ 
+                error: 'Failed to log out',
+                details: error.message 
+            });
+        }
+    }
 }
 
 module.exports = UserController;
