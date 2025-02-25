@@ -27,15 +27,35 @@ class VacationRequest {
         );
     }
 
-    static async getAllRequests(sql, userId = null) {
+    static async getAllRequests(sql) {
+        const result = await sql`
+            SELECT id, start_date, end_date, reason, status, created_at
+            FROM vacation_requests
+            ORDER BY created_at DESC
+        `;
+    
+        return result.map(row => new VacationRequest(
+            row.id,
+            null,
+            row.start_date,
+            row.end_date,
+            row.reason,
+            row.status,
+            row.created_at
+        ));
+    }
+    
+    static async getRequestsByUserId(sql, userId) {
+        if (!userId) throw new Error("User ID is required");
+    
         const result = await sql`
             SELECT vr.*, u.username 
             FROM vacation_requests vr
             JOIN users u ON vr.user_id = u.id
-            ${userId ? sql`WHERE vr.user_id = ${userId}` : sql``}
+            WHERE vr.user_id = ${userId}
             ORDER BY vr.created_at DESC
         `;
-        
+    
         return result.map(row => new VacationRequest(
             row.id,
             row.user_id,
@@ -46,6 +66,8 @@ class VacationRequest {
             row.created_at
         ));
     }
+    
+    
 
     static async getRequestById(sql, requestId) {
         const result = await sql`
