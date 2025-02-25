@@ -143,15 +143,68 @@ The server will run on `http://localhost:3000` by default.
 
 # Frontend
 
+## Folder Structure
+```
+Frontend/
+├── src/
+│   ├── api/
+│   │   ├── api.tsx
+│   ├── components/
+│   │   ├── Button.tsx
+│   │   ├── Input.tsx
+│   │   ├── LogoutButton.tsx
+│   ├── pages/
+│   │   ├── Login.tsx
+│   │   ├── RequestorDashboard.tsx
+│   │   ├── ValidatorDashboard.tsx
+│   ├── redux/
+│   │   ├── store/
+│   │   │   ├── store.tsx
+│   │   ├── slices/
+│   │   │   ├── authSlice.tsx
+│   │   │   ├── requestSlice.tsx
+│   │   │   ├── userSlice.tsx
+│   │   │   ├── vacationSlice.tsx
+│   ├── App.tsx
+│   ├── index.css
+│   ├── main.tsx
+├── package.json
+```
+
+## Technologies Used & Why
+- **Vite**: Faster development environment with hot module replacement.
+- **React + TypeScript**: Provides a scalable and type-safe frontend.
+- **Redux Toolkit**: Simplifies state management.
+- **Axios**: Streamlines HTTP requests and authentication.
+- **Tailwind CSS**: Offers a utility-first approach to styling.
+
+## Installation & Setup
+
+### 1. Navigate to the frontend directory
+```sh
+cd frontend
+```
+
+### 2. Install dependencies
+```sh
+npm install
+```
+
+### 3. Start the frontend
+```sh
+npm run dev
+```
+The frontend will run on `http://localhost:5173` by default.
+
 ## Known Limitations
 - **Partial Backend Integration**: Some frontend features are not fully connected to backend endpoints yet.
 - **Incomplete API Usage**: Not all Redux slices are fully integrated with API requests.
-- **Code Optimization Needed**: There is extra code that can be cleaned up to improve maintainability.
+- **Code Optimization Needed**: There is extra code that can be cleaned up.
 - **Frontend and Backend Synchronization**: Some communication issues between frontend and backend need refinement.
 
 ## Future Improvements
-- **Enhancing Backend Integration**: Work on connecting all frontend features with backend APIs.
-- **Refining Redux Implementation**: Ensure all slices properly interact with API endpoints.
-- **Code Cleanup & Optimization**: Remove unnecessary code to streamline the project.
-- **Improved Frontend-Backend Communication**: Fine-tune request/response handling for a smoother experience.
-- **Backend Stability**: The backend is fully operational and can support additional frontend improvements.
+- **Enhancing Backend Integration**: Ensure all frontend features interact smoothly with backend APIs.
+- **Refining Redux Implementation**: Improve API interactions within Redux slices.
+- **Code Cleanup & Optimization**: Remove redundant code to streamline performance.
+- **Improved Frontend-Backend Communication**: Fine-tune API request handling for better data flow.
+- **User Experience Enhancements**: Enhance UI responsiveness and usability for a seamless workflow.
