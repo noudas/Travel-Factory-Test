@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "../../api/api";
 
 interface VacationRequest {
   id: number;
@@ -24,12 +24,12 @@ const initialState: RequestState = {
   error: null,
 };
 
-// Fetch requests for requester
+// Fetch user-specific requests
 export const fetchUserRequests = createAsyncThunk(
   "requests/fetchUserRequests",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:3000/api/v1/vacations/");
+      const response = await api.get("/vacations/");
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Failed to fetch requests");
@@ -42,7 +42,7 @@ export const fetchAllRequests = createAsyncThunk(
   "requests/fetchAllRequests",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:3000/api/v1/vacations/");
+      const response = await api.get("/vacations/");
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Failed to fetch all requests");
@@ -55,7 +55,7 @@ export const createRequest = createAsyncThunk(
   "requests/createRequest",
   async (requestData: { start_date: string; end_date: string; reason?: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.post("http://localhost:3000/api/v1/vacations/", requestData);
+      const response = await api.post("/vacations/", requestData);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Failed to create request");

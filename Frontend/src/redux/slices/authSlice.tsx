@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import api from "../../api/api";
 
 interface User {
   id: string;
   username: string;
-  role: string; // Added role
+  role: string;
 }
 
 interface AuthState {
@@ -23,17 +23,12 @@ const initialState: AuthState = {
 
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
-  async (
-    { username, password }: { username: string; password: string },
-    { rejectWithValue }
-  ) => {
+  async ({ username, password }: { username: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.post("http://localhost:3000/api/v1/users/login", { username, password });
-      
+      const response = await api.post("/users/login", { username, password });
       const { token, user } = response.data;
       localStorage.setItem("token", token); // Save token
-
-      return { user, token }; // Return user & token
+      return { user, token };
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Login failed");
     }
@@ -70,3 +65,4 @@ const authSlice = createSlice({
 
 export const { logout } = authSlice.actions;
 export default authSlice.reducer;
+
