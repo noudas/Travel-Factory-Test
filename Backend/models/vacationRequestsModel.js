@@ -35,10 +35,16 @@ class VacationRequest {
             ${userId ? sql`WHERE vr.user_id = ${userId}` : sql``}
             ORDER BY vr.created_at DESC
         `;
-        return result.map(
-            row =>
-                new VacationRequest(row.id, row.user_id, row.start_date, row.end_date, row.reason, row.status, row.created_at)
-        );
+        
+        return result.map(row => new VacationRequest(
+            row.id,
+            row.user_id,
+            row.start_date,
+            row.end_date,
+            row.reason,
+            row.status,
+            row.created_at
+        ));
     }
 
     static async getRequestById(sql, requestId) {
