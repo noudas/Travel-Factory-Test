@@ -31,6 +31,20 @@ router.get('/', authenticateToken, async (req, res) => {
     }
 });
 
-
+router.get('/:id', authenticateToken, async (req, res) => {
+    try {
+        const request = await VacationController.getRequestById(
+            req.sql,
+            req.params.id,
+            req.user.id
+        );
+        if (!request) {
+            return res.status(404).json({ error: 'Request not found' });
+        }
+        res.json(request);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
 module.exports = router;
