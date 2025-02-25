@@ -24,3 +24,14 @@ router.post('/register', async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
+
+router.get('/profile', authenticateToken, async (req, res) => {
+    try {
+        const user = await UserController.getProfile(req.sql, req.user.id);
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+module.exports = router;
