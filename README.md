@@ -1,6 +1,74 @@
-# Backend - Travel Factory API
+# Travel Factory API - Full Stack Project
 
-This is the backend for the Travel Factory project. It provides authentication and vacation request management using Express.js and PostgreSQL with NeonDB.
+This project consists of a **backend** built with Express.js and PostgreSQL and a **frontend** built with Vite, React, and TypeScript. It provides authentication and vacation request management.
+
+---
+
+# Web Development Intern Recruitment Test: Vacation Management Interface
+
+## Objective
+Develop a web application for managing vacation requests. The application should include two user interfaces:
+- **Requester Interface**: For employees to request vacations.
+- **Validator Interface**: For managers to review and approve/reject vacation requests.
+
+The project must use **Vue.js/React** for the frontend, **Node.js** for the backend, and a **relational database** (e.g., PostgreSQL, MySQL).
+
+## Deliverables
+- A working application deployed locally with clear setup instructions.
+- Well-documented code and a brief explanation of your approach.
+- Basic test cases (unit tests or integration tests).
+
+## Requirements
+### Requester Interface
+- A form to submit vacation requests with the following fields:
+  - Start Date (required)
+  - End Date (required)
+  - Reason (optional)
+- Display a list of the user's submitted requests with their statuses (Pending, Approved, or Rejected).
+
+### Validator Interface
+- A dashboard displaying all submitted vacation requests.
+- Ability to filter requests by status (Pending, Approved, Rejected).
+- Buttons to Approve or Reject a request.
+- A comment field for providing feedback on rejected requests.
+
+### Backend API (Node.js)
+- Endpoints for:
+  - Submitting a vacation request.
+  - Retrieving vacation requests (by requester or all for the validator).
+  - Approving/rejecting a request with optional comments.
+- Input validation and error handling.
+- Use of RESTful principles.
+
+### Database
+Tables for:
+- **Users**: (id, name, role: Requester/Validator)
+- **Vacation Requests**: (id, user_id, start_date, end_date, reason, status, comments, created_at)
+
+## Additional Notes
+- Use Vue Router / React Router for navigation between requester and validator interfaces.
+- Use Axios for API calls.
+- Use TypeORM or equivalent for database interaction.
+- Ensure the UI is responsive and user-friendly.
+
+## Evaluation Criteria
+- **Code Quality**: Clean, modular, and well-documented code.
+- **Functionality**: Meets requirements and handles edge cases.
+- **Database Design**: Proper schema with efficient queries.
+- **Creativity**: Any extra features or enhancements added.
+- **Presentation**: Easy-to-follow setup instructions and clear implementation explanations.
+
+## Instructions for the Candidate
+- Use your repository to store the code or send it back.
+- Add a README file explaining:
+  - How to install and run the project.
+  - Technical choices made.
+  - Any known limitations.
+- Estimated Time for the Test: **3 to 4 hours**.
+
+---
+
+# Backend
 
 ## Folder Structure
 ```
@@ -71,28 +139,19 @@ The server will run on `http://localhost:3000` by default.
 - `PUT /api/v1/vacations/:id/approve` - Approve a vacation request (requires authentication)
 - `PUT /api/v1/vacations/:id/reject` - Reject a vacation request (requires authentication)
 
-### JWT Authentication
-Include the token in the `Authorization` header as follows:
-```
-Authorization: Bearer YOUR_TOKEN_HERE
-```
+---
 
-## Technical Choices Made
-- **Express.js**: Chosen for its simplicity and efficiency in building RESTful APIs.
-- **PostgreSQL with NeonDB**: A managed database service allowing for serverless access and scalability.
-- **JWT for Authentication**: Secure and stateless authentication mechanism.
-- **Modular Architecture**: Separation of concerns with controllers, models, routes, and utilities.
-- **dotenv**: Used for managing environment variables securely.
+# Frontend
 
 ## Known Limitations
-- **No Rate Limiting**: API endpoints currently do not have request throttling.
-- **No Refresh Token Mechanism**: JWT authentication does not include refresh tokens yet.
-- **Basic Error Handling**: Limited error messages and validation feedback for API responses.
-- **No Role-Based Access Control (RBAC)**: All authenticated users have the same level of access.
+- **Partial Backend Integration**: Some frontend features are not fully connected to backend endpoints yet.
+- **Incomplete API Usage**: Not all Redux slices are fully integrated with API requests.
+- **Code Optimization Needed**: There is extra code that can be cleaned up to improve maintainability.
+- **Frontend and Backend Synchronization**: Some communication issues between frontend and backend need refinement.
 
-## Contribution
-Feel free to fork this repository and submit a pull request for improvements!
-
-## License
-This project is licensed under the ISC License.
-
+## Future Improvements
+- **Enhancing Backend Integration**: Work on connecting all frontend features with backend APIs.
+- **Refining Redux Implementation**: Ensure all slices properly interact with API endpoints.
+- **Code Cleanup & Optimization**: Remove unnecessary code to streamline the project.
+- **Improved Frontend-Backend Communication**: Fine-tune request/response handling for a smoother experience.
+- **Backend Stability**: The backend is fully operational and can support additional frontend improvements.
