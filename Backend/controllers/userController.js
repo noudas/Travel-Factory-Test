@@ -11,6 +11,13 @@ class UserController {
                 });
             }
 
+            const existingUser = await User.findByUsername(req.sql, username);
+            if (existingUser) {
+                return res.status(400).json({
+                    error: 'Username already exists'
+                });
+            }
+
             const user = await User.createUser(req.sql, username, passwordHash, role);
             res.status(201).json(user);
         } catch (error) {
