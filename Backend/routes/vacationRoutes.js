@@ -47,4 +47,6 @@ router.get('/:id', authenticateToken, async (req, res) => {
     }
 });
 
+router.put('/:id/approve', authenticateToken, async (req, res) => {
+
 module.exports = router;
