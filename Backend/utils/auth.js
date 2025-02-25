@@ -25,7 +25,16 @@ function autenticateToken(req, res, next) {
     });
 }
 
+function clearTokenCookie(res) {
+    res.clearCookie('jwt', {
+        httpOnly: true,
+        sameSite: 'strict',
+        secure: process.env.NODE_ENV !== 'development'
+    });
+}
+
 module.exports = {
     generateToken,
-    autenticateToken
+    autenticateToken,
+    clearTokenCookie
 };
