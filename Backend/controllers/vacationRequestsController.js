@@ -21,7 +21,7 @@ class VacationController {
 
     static async getAllRequests(req, res) {
         try {
-            let requests = await VacationRequest.getAllRequests(req.sql, req.user.role === 'EMPLOYEE' ? req.user.id : null);
+            let requests = await VacationRequest.getAllRequests(req.sql, req.user.role === 'REQUESTER' ? req.user.id : null);
 
             if (req.user.role === 'VALIDATOR') {
                 requests = requests.filter(request => request.status === 'PENDING');

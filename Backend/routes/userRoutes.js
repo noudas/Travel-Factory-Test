@@ -10,7 +10,7 @@ router.post('/login', async (req, res) => {
     await userController.login(req, res);
 });
 
-router.post('/logout', authenticateToken, async (req, res) => {
+router.post('/logout', async (req, res) => {
     await userController.logout(req, res);
 });
 
