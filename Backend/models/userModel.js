@@ -13,7 +13,14 @@ class User{
         `;
         return new User(result[0].username, result[0].password_hash, result[0].role);
     }
-    
+
+    static async findByUsername(sql, username) {
+        const result = await sql`
+            SELECT * FROM users WHERE username = ${username}
+        `;
+        return result[0];
+    }
+
 }
 
 module.exports = User;
