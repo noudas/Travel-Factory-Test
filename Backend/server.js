@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
@@ -8,12 +7,14 @@ const routes = require('./routes');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: '*' })); // Allow all origins
 app.use(express.json());
 
-// Attach SQL client to request object
-app.use(async (req, res, next) => {
-    req.sql = await neon(process.env.DATABASE_URL);
+// Attach SQL client globally to avoid reinitialization per request
+app.locals.sql = neon(process.env.DATABASE_URL);
+
+app.use((req, res, next) => {
+    req.sql = app.locals.sql;
     next();
 });
 
