@@ -17,6 +17,12 @@ class UserController {
                 return res.status(400).json({ error: 'Username already exists' });
             }
 
+            const validRoles = ['REQUESTER', 'VALIDATOR'];
+
+            if (!validRoles.includes(role)) {
+                return res.status(400).json({ error: "Invalid role specified" });
+            }
+
             // Hash the password before saving
             const passwordHash = await bcrypt.hash(password, 10);
             const user = await User.createUser(req.sql, username, passwordHash, role);

@@ -3,6 +3,7 @@ const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
 const { initializeDatabase } = require('./utils/db-init');
+const { neon } = require('@neondatabase/serverless');
 const routes = require('./routes');
 
 const app = express();
@@ -15,9 +16,6 @@ app.use(async (req, res, next) => {
     req.sql = await neon(process.env.DATABASE_URL);
     next();
 });
-
-// Authentication middleware
-app.use('/api/v1/*', require('./utils/auth').authenticateToken);
 
 // Routes
 app.use('/api/v1', routes);
