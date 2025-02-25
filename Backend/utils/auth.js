@@ -2,18 +2,17 @@ const jwt = require('jsonwebtoken');
 
 function generateToken(user) {
     return jwt.sign(
-        { id: user.id, role: user.role },
+        { id: user.id, username: user.username, role: user.role },
         process.env.JWT_SECRET,
-        { expiresIn: '2h' }
+        { expiresIn: '1h' }
     );
 }
 
-function autenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+function authenticateToken(req, res, next) {
+    const token = req.header('Authorization')?.split(' ')[1];
 
     if (!token) {
-        return res.status(401).json({ error: 'Access denied. No credentials provided.' });
+        return res.status(401).json({ error: 'Access denied. No token provided.' });
     }
 
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
@@ -26,15 +25,11 @@ function autenticateToken(req, res, next) {
 }
 
 function clearTokenCookie(res) {
-    res.clearCookie('jwt', {
+    res.clearCookie('token', {
         httpOnly: true,
-        sameSite: 'strict',
-        secure: process.env.NODE_ENV !== 'development'
+        secure: true,
+        sameSite: 'Strict'
     });
 }
 
-module.exports = {
-    generateToken,
-    autenticateToken,
-    clearTokenCookie
-};
+module.exports = { generateToken, authenticateToken, clearTokenCookie };
