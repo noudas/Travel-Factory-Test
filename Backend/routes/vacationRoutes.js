@@ -62,5 +62,22 @@ router.put('/:id/approve', authenticateToken, async (req, res) => {
     }
 });
 
+router.put('/:id/reject', authenticateToken, async (req, res) => {
+    try {
+        if (req.user.role !== 'VALIDATOR') {
+            return res.status(403).json({ error: 'Forbidden' });
+        }
+        const { comments } = req.body;
+        const request = await VacationController.rejectRequest(
+            req.sql,
+            req.params.id,
+            comments
+        );
+        res.json(request);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
 
 module.exports = router;
