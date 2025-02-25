@@ -1,8 +1,8 @@
 // src/routes/index.js
 const express = require('express');
 const router = express.Router();
-const userRoutes = require('./user.routes');
-const vacationRoutes = require('./vacation.routes');
+const userRoutes = require('./userRoutes');
+const vacationRoutes = require('./vacationRoutes');
 
 router.use('/users', userRoutes);
 router.use('/vacations', vacationRoutes);
