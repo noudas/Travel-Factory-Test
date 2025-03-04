@@ -5,6 +5,7 @@ import { AppDispatch } from "../redux/store/store";
 import RequestForm from "../components/RequestForm";
 import RequestTable from "../components/RequestTable";
 import Header from "../components/Header";
+import Accordion from "../components/Accordion";
 
 const RequesterDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,9 +17,12 @@ const RequesterDashboard: React.FC = () => {
   return (
     <div className="max-w-2xl mx-auto p-6">
       <Header />
-      <h2 className="text-2xl font-bold mb-4">Submit Vacation Request</h2>
-      <RequestForm />
-      <RequestTable />
+      <Accordion title="Submit Vacation Request">
+        <RequestForm />
+      </Accordion>
+      <Accordion title="My Requests">
+        <RequestTable />
+      </Accordion>
     </div>
   );
 };
