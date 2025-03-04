@@ -23,15 +23,28 @@ const initialState: VacationState = {
   error: null,
 };
 
-// ✅ Create request (async)
-export const createRequest = createAsyncThunk(
-  "requests/createRequest",
-  async (requestData: Omit<VacationRequest, "id" | "status">, { rejectWithValue }) => {
+// ✅ Approve request (PUT)
+export const approveRequest = createAsyncThunk(
+  "requests/approveRequest",
+  async (requestId: string, { rejectWithValue }) => {
     try {
-      const response = await api.post("/vacation-requests", requestData); // ✅ Check if backend route is correct
+      const response = await api.put(`/vacations/${requestId}/approve`);
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Failed to create request");
+      return rejectWithValue(error.response?.data?.message || "Failed to approve request");
+    }
+  }
+);
+
+// ✅ Reject request (PUT)
+export const rejectRequest = createAsyncThunk(
+  "requests/rejectRequest",
+  async (requestId: string, { rejectWithValue }) => {
+    try {
+      const response = await api.put(`/vacations/${requestId}/reject`);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || "Failed to reject request");
     }
   }
 );
@@ -46,17 +59,17 @@ const requestSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createRequest.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+      .addCase(approveRequest.fulfilled, (state, action) => {
+        const index = state.requests.findIndex(req => req.id === action.payload.id);
+        if (index !== -1) {
+          state.requests[index].status = "APPROVED";
+        }
       })
-      .addCase(createRequest.fulfilled, (state, action) => {
-        state.loading = false;
-        state.requests.push(action.payload);
-      })
-      .addCase(createRequest.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
+      .addCase(rejectRequest.fulfilled, (state, action) => {
+        const index = state.requests.findIndex(req => req.id === action.payload.id);
+        if (index !== -1) {
+          state.requests[index].status = "REJECTED";
+        }
       });
   },
 });
