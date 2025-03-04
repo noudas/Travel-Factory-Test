@@ -1,16 +1,21 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store/store";
 
-const RequestTable: React.FC = () => {
-  const { requests, loading, error } = useSelector((state: RootState) => state.requests);
+// Define the request type
+interface VacationRequest {
+  id: number;
+  startDate: string;
+  endDate: string;
+  reason?: string;
+  status: string;
+}
 
+interface RequestTableProps {
+  requests: VacationRequest[];
+}
+
+const RequestTable: React.FC<RequestTableProps> = ({ requests }) => {
   return (
     <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
-      
-      {loading && <p className="text-gray-500">Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
-
       <div className="overflow-x-auto">
         <table className="min-w-full border-collapse">
           <thead>
@@ -22,8 +27,8 @@ const RequestTable: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {requests.length > 0 ? (
-              requests.map((req, index) => (
+            {Array.isArray(requests) && requests.length > 0 ? (
+              requests.map((req: VacationRequest, index: number) => (
                 <tr 
                   key={req.id ?? `request-${index}`} 
                   className="border-t hover:bg-gray-50 transition"

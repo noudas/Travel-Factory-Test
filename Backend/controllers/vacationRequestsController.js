@@ -34,6 +34,19 @@ class VacationController {
         }
     }
 
+    static async getRequestsByUserId(req, res) {
+        try {
+            const { id } = req.params;
+            if (!id) return res.status(400).json({ error: 'User ID is required' });
+    
+            const requests = await VacationRequest.getRequestsByUserId(req.sql, id);
+            res.json({ message: "User requests fetched successfully", data: requests });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+     
+
     static async approveRequest(req, res) {
         try {
             if (req.user.role !== 'VALIDATOR') return res.status(403).json({ error: 'Forbidden' });

@@ -18,25 +18,30 @@ interface RequestState {
 }
 
 const initialState: RequestState = {
-  requests: [],
+  requests: [], // Ensure requests is always an array
   loading: false,
   error: null,
 };
 
+// Fetch requests for a specific user
 export const fetchUserRequests = createAsyncThunk(
   "requests/fetchUserRequests",
-  async (_, { rejectWithValue }) => {
+  async (userId: number, { rejectWithValue }) => {
     try {
-      const response = await api.get("/vacations/", {
+      const response = await api.get(`/vacations/user/${userId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
+      console.log("API Response:", response.data); // Debugging log
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Failed to fetch requests");
+      console.error("Error fetching user requests:", error);
+      return rejectWithValue(error.response?.data?.message || "Failed to fetch user requests");
     }
   }
 );
 
+
+// Fetch all requests (Admin or HR)
 export const fetchAllRequests = createAsyncThunk(
   "requests/fetchAllRequests",
   async (_, { rejectWithValue }) => {
@@ -51,6 +56,7 @@ export const fetchAllRequests = createAsyncThunk(
   }
 );
 
+// Create a vacation request
 export const createRequest = createAsyncThunk(
   "requests/createRequest",
   async (requestData: { startDate: string; endDate: string; reason?: string }, { rejectWithValue }) => {
@@ -71,34 +77,41 @@ const requestSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // Fetch user requests
       .addCase(fetchUserRequests.pending, (state) => {
         state.loading = true;
       })
       .addCase(fetchUserRequests.fulfilled, (state, action) => {
         state.loading = false;
-        state.requests = action.payload;
+        console.log("🚀 Fetched Requests Data:", action.payload); // Debug log
+        state.requests = Array.isArray(action.payload.data) ? action.payload.data : [];
       })
+      
       .addCase(fetchUserRequests.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })
+      
+      // Fetch all requests
       .addCase(fetchAllRequests.pending, (state) => {
         state.loading = true;
       })
       .addCase(fetchAllRequests.fulfilled, (state, action) => {
         state.loading = false;
-        state.requests = action.payload;
+        state.requests = Array.isArray(action.payload) ? action.payload : [];
       })
       .addCase(fetchAllRequests.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })
+
+      // Create request
       .addCase(createRequest.pending, (state) => {
         state.loading = true;
       })
       .addCase(createRequest.fulfilled, (state, action) => {
         state.loading = false;
-        state.requests.push(action.payload);
+        state.requests = state.requests ? [...state.requests, action.payload] : [action.payload];
       })
       .addCase(createRequest.rejected, (state, action) => {
         state.loading = false;
