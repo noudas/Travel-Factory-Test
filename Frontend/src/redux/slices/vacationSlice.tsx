@@ -23,13 +23,27 @@ const initialState: VacationState = {
   error: null,
 };
 
+// ✅ Fetch all requests (GET)
+export const fetchAllRequests = createAsyncThunk(
+  "requests/fetchAllRequests",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get("/vacations");
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || "Failed to fetch requests");
+    }
+  }
+);
+
 // ✅ Approve request (PUT)
 export const approveRequest = createAsyncThunk(
   "requests/approveRequest",
-  async (requestId: number, { rejectWithValue }) => {
+  async (requestId: number, { dispatch, rejectWithValue }) => {
     try {
-      const response = await api.put(`/vacations/${requestId}/approve`);
-      return response.data;
+      await api.put(`/vacations/${requestId}/approve`);
+      dispatch(fetchAllRequests()); // Refresh requests after approval
+      return requestId;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Failed to approve request");
     }
@@ -39,10 +53,11 @@ export const approveRequest = createAsyncThunk(
 // ✅ Reject request (PUT)
 export const rejectRequest = createAsyncThunk(
   "requests/rejectRequest",
-  async (requestId: number, { rejectWithValue }) => {
+  async (requestId: number, { dispatch, rejectWithValue }) => {
     try {
-      const response = await api.put(`/vacations/${requestId}/reject`);
-      return response.data;
+      await api.put(`/vacations/${requestId}/reject`);
+      dispatch(fetchAllRequests()); // Refresh requests after rejection
+      return requestId;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Failed to reject request");
     }
@@ -59,14 +74,26 @@ const requestSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchAllRequests.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAllRequests.fulfilled, (state, action) => {
+        state.loading = false;
+        state.requests = action.payload;
+      })
+      .addCase(fetchAllRequests.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
       .addCase(approveRequest.fulfilled, (state, action) => {
-        const index = state.requests.findIndex(req => req.id === action.payload.id);
+        const index = state.requests.findIndex(req => req.id === action.payload);
         if (index !== -1) {
           state.requests[index].status = "APPROVED";
         }
       })
       .addCase(rejectRequest.fulfilled, (state, action) => {
-        const index = state.requests.findIndex(req => req.id === action.payload.id);
+        const index = state.requests.findIndex(req => req.id === action.payload);
         if (index !== -1) {
           state.requests[index].status = "REJECTED";
         }
