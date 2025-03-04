@@ -15,7 +15,7 @@ const RequesterDashboard: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-50">
+    <div className="flex flex-col items-center min-h-screen bg-gray-50 overflow-x-hidden">
       <Header />
       <div className="w-full max-w-3xl p-6 space-y-6">
         <Accordion title="Submit Vacation Request">
