@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import api from "../../api/api";
 
 interface VacationRequest {
-  id: string;
-  userId: string;
+  id: number;
+  userId: number;
   startDate: string;
   endDate: string;
   reason?: string;
@@ -26,7 +26,7 @@ const initialState: VacationState = {
 // ✅ Approve request (PUT)
 export const approveRequest = createAsyncThunk(
   "requests/approveRequest",
-  async (requestId: string, { rejectWithValue }) => {
+  async (requestId: number, { rejectWithValue }) => {
     try {
       const response = await api.put(`/vacations/${requestId}/approve`);
       return response.data;
@@ -39,7 +39,7 @@ export const approveRequest = createAsyncThunk(
 // ✅ Reject request (PUT)
 export const rejectRequest = createAsyncThunk(
   "requests/rejectRequest",
-  async (requestId: string, { rejectWithValue }) => {
+  async (requestId: number, { rejectWithValue }) => {
     try {
       const response = await api.put(`/vacations/${requestId}/reject`);
       return response.data;

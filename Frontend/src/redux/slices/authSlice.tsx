@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../api/api";
 
 interface User {
-  id: string;
+  id: number;
   username: string;
   role: "REQUESTER" | "VALIDATOR";
   token: string; // Ensure token is part of the user object
