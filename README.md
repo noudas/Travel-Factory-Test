@@ -135,6 +135,7 @@ The server will run on `http://localhost:3000` by default.
 ### Vacation Requests
 - `POST /api/v1/vacations/` - Submit a vacation request (requires authentication)
 - `GET /api/v1/vacations/` - Retrieve all vacation requests (requires authentication)
+- `GET /api/v1/vacations/user/:id` - Retrieve all vacation requests from an specific user (requires authentication)
 - `GET /api/v1/vacations/:id` - Get a specific vacation request (requires authentication)
 - `PUT /api/v1/vacations/:id/approve` - Approve a vacation request (requires authentication)
 - `PUT /api/v1/vacations/:id/reject` - Reject a vacation request (requires authentication)
@@ -153,6 +154,11 @@ Frontend/
 │   │   ├── Button.tsx
 │   │   ├── Input.tsx
 │   │   ├── LogoutButton.tsx
+│   │   ├── RequestFilter.tsx
+│   │   ├── RequestForm.tsx
+│   │   ├── RequestItem.tsx
+│   │   ├── RequestList.tsx
+│   │   ├── RequestTable.tsx
 │   ├── pages/
 │   │   ├── Login.tsx
 │   │   ├── RequestorDashboard.tsx
@@ -197,14 +203,10 @@ npm run dev
 The frontend will run on `http://localhost:5173` by default.
 
 ## Known Limitations
-- **Partial Backend Integration**: Some frontend features are not fully connected to backend endpoints yet.
-- **Incomplete API Usage**: Not all Redux slices are fully integrated with API requests.
 - **Code Optimization Needed**: There is extra code that can be cleaned up.
-- **Frontend and Backend Synchronization**: Some communication issues between frontend and backend need refinement.
 
 ## Future Improvements
-- **Enhancing Backend Integration**: Ensure all frontend features interact smoothly with backend APIs.
+- **Implementing extra Features**: When Rejecting a vacation there is an option to add the reason for rejection.
 - **Refining Redux Implementation**: Improve API interactions within Redux slices.
 - **Code Cleanup & Optimization**: Remove redundant code to streamline performance.
-- **Improved Frontend-Backend Communication**: Fine-tune API request handling for better data flow.
 - **User Experience Enhancements**: Enhance UI responsiveness and usability for a seamless workflow.
