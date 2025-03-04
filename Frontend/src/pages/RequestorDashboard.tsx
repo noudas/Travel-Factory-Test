@@ -39,8 +39,8 @@ const RequesterDashboard: React.FC = () => {
     e.preventDefault();
     console.log("🚀 Submitting request with data:", formData);
     dispatch(createRequest({
-      start_date: formData.startDate,
-      end_date: formData.endDate,
+      startDate: formData.startDate,
+      endDate: formData.endDate,
       reason: formData.reason
     }));
   };
@@ -84,22 +84,27 @@ const RequesterDashboard: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {requests.length > 0 ? (
-              requests.map((req) => (
-                <tr key={req.id} className="border">
+          {requests.length > 0 ? (
+            requests.map((req, index) => {
+              console.log("Rendering request:", req); // ✅ Log inside a block
+
+              return (
+                <tr key={req.id ?? `request-${index}`} className="border">
                   <td className="border p-2">{req.reason || "No reason provided"}</td>
                   <td className="border p-2">{new Date(req.startDate).toLocaleDateString()}</td>
                   <td className="border p-2">{new Date(req.endDate).toLocaleDateString()}</td>
                   <td className="border p-2 font-semibold">{req.status}</td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={4} className="border p-2 text-center text-gray-500">
-                  No requests found
-                </td>
-              </tr>
-            )}
+              );
+            })
+          ) : (
+            <tr>
+              <td colSpan={4} className="border p-2 text-center text-gray-500">
+                No requests found
+              </td>
+            </tr>
+          )}
+
           </tbody>
         </table>
       </div>

@@ -34,7 +34,7 @@ const ValidatorDashboard: React.FC = () => {
 
       {filteredRequests.map((req) => (
         <div key={req.id} className="border p-2 my-2">
-          {req.start_date} - {req.end_date} | {req.status}
+          {req.startDate} - {req.endDate} | {req.status}
           <Button>Approve</Button>
           <Button>Reject</Button>
         </div>

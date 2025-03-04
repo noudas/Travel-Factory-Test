@@ -63,7 +63,7 @@ export const fetchAllRequests = createAsyncThunk(
 // Create a vacation request
 export const createRequest = createAsyncThunk(
   "requests/createRequest",
-  async (requestData: { start_date: string; end_date: string; reason?: string }, { rejectWithValue }) => {
+  async (requestData: { startDate: string; endDate: string; reason?: string }, { rejectWithValue }) => {
     try {
       console.log("📤 Sending request data:", requestData);
       const response = await api.post("/vacations/", requestData, {
