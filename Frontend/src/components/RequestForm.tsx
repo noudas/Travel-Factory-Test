@@ -14,6 +14,8 @@ const RequestForm: React.FC = () => {
     reason: "",
   });
 
+  const today = new Date().toISOString().split("T")[0];
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -31,8 +33,22 @@ const RequestForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-xl p-6 space-y-4 border border-gray-200">
       <div className="grid gap-4">
-        <Input type="date" name="startDate" required value={formData.startDate} onChange={handleChange} />
-        <Input type="date" name="endDate" required value={formData.endDate} onChange={handleChange} />
+        <Input
+          type="date"
+          name="startDate"
+          required
+          value={formData.startDate}
+          onChange={handleChange}
+          min={today} // Set the min date to today
+        />
+        <Input
+          type="date"
+          name="endDate"
+          required
+          value={formData.endDate}
+          onChange={handleChange}
+          min={today} // Set the min date to today
+        />
         <textarea
           name="reason"
           placeholder="Reason (Optional)"
