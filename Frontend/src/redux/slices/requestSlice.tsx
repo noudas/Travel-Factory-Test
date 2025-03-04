@@ -4,8 +4,8 @@ import api from "../../api/api";
 interface VacationRequest {
   id: number;
   user_id: number;
-  start_date: string;
-  end_date: string;
+  startDate: string;
+  endDate: string;
   reason: string;
   status: string;
   comments?: string;

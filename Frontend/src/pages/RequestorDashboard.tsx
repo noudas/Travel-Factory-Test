@@ -11,31 +11,56 @@ const RequesterDashboard: React.FC = () => {
   const { requests, loading, error } = useSelector((state: RootState) => state.requests);
 
   const [formData, setFormData] = useState({
-    start_date: "",
-    end_date: "",
+    startDate: "",
+    endDate: "",
     reason: "",    
   });
 
+  // Debugging: Log initial component render
   useEffect(() => {
+    console.log("📌 RequesterDashboard mounted");
+
+    console.log("📢 Fetching user requests...");
     dispatch(fetchUserRequests());
+
+    return () => {
+      console.log("🔻 RequesterDashboard unmounted");
+    };
   }, [dispatch]);
 
+  // Debugging: Log form state changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    console.log("📝 Updated formData:", { ...formData, [e.target.name]: e.target.value });
   };
 
+  // Debugging: Log form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("🚀 Submitting request with data:", formData);
     dispatch(createRequest(formData));
   };
 
+  // Debugging: Log request state updates
+  useEffect(() => {
+    console.log("📊 Requests state updated:", requests);
+  }, [requests]);
+
+  useEffect(() => {
+    if (loading) console.log("⏳ Loading requests...");
+  }, [loading]);
+
+  useEffect(() => {
+    if (error) console.error("❌ Error fetching requests:", error);
+  }, [error]);
+
   return (
     <div className="max-w-2xl mx-auto p-6">
-        <LogoutButton/>
+      <LogoutButton />
       <h2 className="text-2xl font-bold mb-4">Submit Vacation Request</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <Input type="date" name="start_date" required value={formData.start_date} onChange={handleChange} />
-        <Input type="date" name="end_date" required value={formData.end_date} onChange={handleChange} />
+        <Input type="date" name="start_date" required value={formData.startDate} onChange={handleChange} />
+        <Input type="date" name="end_date" required value={formData.endDate} onChange={handleChange} />
         <textarea name="reason" placeholder="Reason (Optional)" className="border p-2 w-full" onChange={handleChange} />
         <Button type="submit">Submit</Button>
       </form>
@@ -44,9 +69,9 @@ const RequesterDashboard: React.FC = () => {
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
       <ul>
-        {requests.map((req: { id: React.Key | null | undefined; start_date: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; end_date: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; status: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; }) => (
+        {requests.map((req) => (
           <li key={req.id} className="border p-2 my-2">
-            {req.id} - {req.start_date} to {req.end_date} ({req.status})
+            {req.id} - {req.startDate} to {req.endDate} ({req.status})
           </li>
         ))}
       </ul>
