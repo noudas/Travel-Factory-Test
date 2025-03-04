@@ -6,12 +6,13 @@ import { AppDispatch } from "../redux/store/store";
 
 interface RequestItemProps {
   request: {
-    id: number;
-    userId: number;
-    reason: string;
-    startDate: string;
-    endDate: string;
-    status: string;
+      id: number;
+      userId: number;
+      reason: string;
+      comments: string;
+      startDate: string;
+      endDate: string;
+      status: string;
   };
 }
 
@@ -34,6 +35,7 @@ const RequestItem: React.FC<RequestItemProps> = ({ request }) => {
         <p>{request.userId}</p>
         <p>{request.reason || "No reason provided"}</p>
         <p>{new Date(request.startDate).toLocaleDateString()} - {new Date(request.endDate).toLocaleDateString()}</p>
+        <p>{request.comments}</p>
         <p className="font-semibold">{request.status}</p>
       </div>
       <div className="space-x-2">
