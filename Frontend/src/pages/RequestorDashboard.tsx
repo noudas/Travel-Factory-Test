@@ -16,47 +16,20 @@ const RequesterDashboard: React.FC = () => {
     reason: "",    
   });
 
-  // Debugging: Log initial component render
   useEffect(() => {
-    console.log("📌 RequesterDashboard mounted");
-
-    console.log("📢 Fetching user requests...");
     dispatch(fetchUserRequests());
-
-    return () => {
-      console.log("🔻 RequesterDashboard unmounted");
-    };
   }, [dispatch]);
 
-  // Debugging: Log form state changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    console.log("📝 Updated formData:", { ...formData, [e.target.name]: e.target.value });
   };
 
-  // Debugging: Log form submission
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("🚀 Submitting request with data:", formData);
-    dispatch(createRequest({
-      startDate: formData.startDate,
-      endDate: formData.endDate,
-      reason: formData.reason
-    }));
+    await dispatch(createRequest(formData));
+    setFormData({ startDate: "", endDate: "", reason: "" }); // Reset form
+    dispatch(fetchUserRequests()); // Refresh data after submitting
   };
-
-  // Debugging: Log request state updates
-  useEffect(() => {
-    console.log("📊 Requests state updated:", requests);
-  }, [requests]);
-
-  useEffect(() => {
-    if (loading) console.log("⏳ Loading requests...");
-  }, [loading]);
-
-  useEffect(() => {
-    if (error) console.error("❌ Error fetching requests:", error);
-  }, [error]);
 
   return (
     <div className="max-w-2xl mx-auto p-6">
@@ -65,7 +38,7 @@ const RequesterDashboard: React.FC = () => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input type="date" name="startDate" required value={formData.startDate} onChange={handleChange} />
         <Input type="date" name="endDate" required value={formData.endDate} onChange={handleChange} />
-        <textarea name="reason" placeholder="Reason (Optional)" className="border p-2 w-full" onChange={handleChange} />
+        <textarea name="reason" placeholder="Reason (Optional)" className="border p-2 w-full" onChange={handleChange} value={formData.reason} />
         <Button type="submit">Submit</Button>
       </form>
 
@@ -84,31 +57,25 @@ const RequesterDashboard: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-          {requests.length > 0 ? (
-            requests.map((req, index) => {
-              console.log("Rendering request:", req); // ✅ Log inside a block
-
-              return (
+            {requests.length > 0 ? (
+              requests.map((req, index) => (
                 <tr key={req.id ?? `request-${index}`} className="border">
                   <td className="border p-2">{req.reason || "No reason provided"}</td>
                   <td className="border p-2">{new Date(req.startDate).toLocaleDateString()}</td>
                   <td className="border p-2">{new Date(req.endDate).toLocaleDateString()}</td>
                   <td className="border p-2 font-semibold">{req.status}</td>
                 </tr>
-              );
-            })
-          ) : (
-            <tr>
-              <td colSpan={4} className="border p-2 text-center text-gray-500">
-                No requests found
-              </td>
-            </tr>
-          )}
-
+              ))
+            ) : (
+              <tr>
+                <td colSpan={4} className="border p-2 text-center text-gray-500">
+                  No requests found
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
-
     </div>
   );
 };
