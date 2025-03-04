@@ -14,7 +14,6 @@ const RequesterDashboard: React.FC = () => {
 
   useEffect(() => {
     if (user && user.id) {
-      console.log("Fetching requests for user ID:", user.id); // Debugging log
       dispatch(fetchUserRequests(user.id));
     }
   }, [dispatch, user]);

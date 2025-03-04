@@ -19,8 +19,6 @@ interface AuthState {
 const storedUser = localStorage.getItem("user");
 const parsedUser: User | null = storedUser ? JSON.parse(storedUser) : null;
 
-console.log("🔍 Initial user from localStorage:", parsedUser);
-
 const initialState: AuthState = {
   user: parsedUser,
   token: parsedUser?.token || null, // Retrieve token from user object
@@ -32,12 +30,8 @@ const initialState: AuthState = {
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async ({ username, password }: { username: string; password: string }, { rejectWithValue }) => {
-    console.log("📢 Attempting login for:", username);
-
     try {
       const response = await api.post("/users/login", { username, password });
-      console.log("✅ Login response:", response.data);
-
       const { token, user } = response.data;
       const userWithToken = { ...user, token }; // Attach token to user object
 
@@ -45,10 +39,8 @@ export const loginUser = createAsyncThunk(
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(userWithToken));
 
-      console.log("💾 User stored in localStorage:", userWithToken);
       return userWithToken;
     } catch (error: any) {
-      console.error("❌ Login failed:", error.response?.data?.message || error.message);
       return rejectWithValue(error.response?.data?.message || "Login failed");
     }
   }

@@ -31,15 +31,12 @@ export const fetchUserRequests = createAsyncThunk(
       const response = await api.get(`/vacations/user/${userId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-      console.log("API Response:", response.data); // Debugging log
       return response.data;
     } catch (error: any) {
-      console.error("Error fetching user requests:", error);
       return rejectWithValue(error.response?.data?.message || "Failed to fetch user requests");
     }
   }
 );
-
 
 // Fetch all requests (Admin or HR)
 export const fetchAllRequests = createAsyncThunk(
@@ -83,15 +80,13 @@ const requestSlice = createSlice({
       })
       .addCase(fetchUserRequests.fulfilled, (state, action) => {
         state.loading = false;
-        console.log("🚀 Fetched Requests Data:", action.payload); // Debug log
         state.requests = Array.isArray(action.payload.data) ? action.payload.data : [];
       })
-      
       .addCase(fetchUserRequests.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })
-      
+
       // Fetch all requests
       .addCase(fetchAllRequests.pending, (state) => {
         state.loading = true;
