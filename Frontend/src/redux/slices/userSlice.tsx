@@ -3,11 +3,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface UserState {
   id: string | null;
   username: string | null;
+  token: string | null;
   role: "REQUESTER" | "VALIDATOR" | null;
 }
 
 const storedUser = localStorage.getItem("user");
-const initialState: UserState = storedUser ? JSON.parse(storedUser) : { id: null, username: null, role: null };
+const initialState: UserState = storedUser
+                  ? JSON.parse(storedUser)
+                  : { id: null, username: null, token: null, role: null };
 
 const userSlice = createSlice({
   name: "user",
