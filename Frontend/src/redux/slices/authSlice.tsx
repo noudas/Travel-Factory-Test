@@ -60,29 +60,24 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      console.log("🚪 Logging out...");
       state.user = null;
       state.token = null;
       localStorage.removeItem("token");
       localStorage.removeItem("user"); // Ensure both are cleared on logout
-      console.log("✅ Logged out successfully");
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
-        console.log("⏳ Login request in progress...");
         state.loading = true;
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        console.log("✅ Login successful:", action.payload);
         state.loading = false;
         state.user = action.payload;
         state.token = action.payload.token;
       })
       .addCase(loginUser.rejected, (state, action) => {
-        console.error("❌ Login rejected:", action.payload);
         state.loading = false;
         state.error = action.payload as string;
       });
