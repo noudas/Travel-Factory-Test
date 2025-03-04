@@ -13,7 +13,7 @@ const RequesterDashboard: React.FC = () => {
   const [formData, setFormData] = useState({
     start_date: "",
     end_date: "",
-    reason: "",
+    reason: "",    
   });
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const RequesterDashboard: React.FC = () => {
       <ul>
         {requests.map((req: { id: React.Key | null | undefined; start_date: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; end_date: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; status: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined; }) => (
           <li key={req.id} className="border p-2 my-2">
-            {req.start_date} - {req.end_date} | {req.status}
+            {req.id} - {req.start_date} to {req.end_date} ({req.status})
           </li>
         ))}
       </ul>
