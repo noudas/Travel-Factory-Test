@@ -38,7 +38,11 @@ const RequesterDashboard: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("🚀 Submitting request with data:", formData);
-    dispatch(createRequest(formData));
+    dispatch(createRequest({
+      start_date: formData.startDate,
+      end_date: formData.endDate,
+      reason: formData.reason
+    }));
   };
 
   // Debugging: Log request state updates
@@ -59,8 +63,8 @@ const RequesterDashboard: React.FC = () => {
       <LogoutButton />
       <h2 className="text-2xl font-bold mb-4">Submit Vacation Request</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <Input type="date" name="start_date" required value={formData.startDate} onChange={handleChange} />
-        <Input type="date" name="end_date" required value={formData.endDate} onChange={handleChange} />
+        <Input type="date" name="startDate" required value={formData.startDate} onChange={handleChange} />
+        <Input type="date" name="endDate" required value={formData.endDate} onChange={handleChange} />
         <textarea name="reason" placeholder="Reason (Optional)" className="border p-2 w-full" onChange={handleChange} />
         <Button type="submit">Submit</Button>
       </form>
@@ -71,7 +75,7 @@ const RequesterDashboard: React.FC = () => {
       <ul>
         {requests.map((req) => (
           <li key={req.id} className="border p-2 my-2">
-            {req.id} - {req.startDate} to {req.endDate} ({req.status})
+            {req.reason} - {req.startDate} to {req.endDate} ({req.status})
           </li>
         ))}
       </ul>
