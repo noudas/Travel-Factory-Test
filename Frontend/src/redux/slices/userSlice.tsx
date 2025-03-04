@@ -19,14 +19,20 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<UserState>) => {
       state.id = action.payload.id;
       state.username = action.payload.username;
+      state.token = action.payload.token; // store token in redux state
       state.role = action.payload.role;
-      localStorage.setItem("user", JSON.stringify(action.payload)); // Persist user data
+
+      localStorage.setItem("user", JSON.stringify(action.payload)); // Persist user data including token
+      localStorage.setItem("token", action.payload.token || ""); // Store token separately
     },
     logout: (state) => {
       state.id = null;
       state.username = null;
+      state.token = null;
       state.role = null;
-      localStorage.removeItem("user"); // Clear user data on logout
+      
+      localStorage.removeItem("user"); // Clear user data
+      localStorage.removeItem("token"); // Remove token
     },
   },
 });
