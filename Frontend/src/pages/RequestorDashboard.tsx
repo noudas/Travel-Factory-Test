@@ -15,14 +15,16 @@ const RequesterDashboard: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
+    <div className="flex flex-col items-center min-h-screen bg-gray-50">
       <Header />
-      <Accordion title="Submit Vacation Request">
-        <RequestForm />
-      </Accordion>
-      <Accordion title="My Requests">
-        <RequestTable />
-      </Accordion>
+      <div className="w-full max-w-3xl p-6 space-y-6">
+        <Accordion title="Submit Vacation Request">
+          <RequestForm />
+        </Accordion>
+        <Accordion title="My Requests">
+          <RequestTable />
+        </Accordion>
+      </div>
     </div>
   );
 };

@@ -16,16 +16,23 @@ const ValidatorDashboard: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
+    <div className="flex flex-col items-center min-h-screen bg-gray-50 overflow-x-hidden">
       <Header />
-      <h2 className="text-2xl font-bold mb-4">Vacation Requests</h2>
-      
-      <RequestFilter filter={filter} setFilter={setFilter} />
 
-      {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+      <div className="w-full max-w-3xl p-6 space-y-4">
+        <h2 className="text-lg font-bold">Vacation Requests</h2>
 
-      <RequestList requests={requests} filter={filter} />
+        <div className="flex justify-end">
+          <RequestFilter filter={filter} setFilter={setFilter} />
+        </div>
+
+        {loading && <p className="text-center text-gray-600">Loading...</p>}
+        {error && <p className="text-center text-red-500">{error}</p>}
+
+        <div className="bg-white shadow-sm rounded-lg p-4 border border-gray-200">
+          <RequestList requests={requests} filter={filter} />
+        </div>
+      </div>
     </div>
   );
 };

@@ -5,9 +5,7 @@ import { AppDispatch } from "../redux/store/store";
 import { Input } from "./Input";
 import { Button } from "./Button";
 
-interface RequestFormProps {}
-
-const RequestForm: React.FC<RequestFormProps> = () => {
+const RequestForm: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [formData, setFormData] = useState({
     startDate: "",
@@ -23,21 +21,30 @@ const RequestForm: React.FC<RequestFormProps> = () => {
     e.preventDefault();
     await dispatch(createRequest(formData));
     setFormData({ startDate: "", endDate: "", reason: "" });
-    dispatch(fetchUserRequests()); // Refresh requests after submitting
+    dispatch(fetchUserRequests());
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <Input type="date" name="startDate" required value={formData.startDate} onChange={handleChange} />
-      <Input type="date" name="endDate" required value={formData.endDate} onChange={handleChange} />
-      <textarea
-        name="reason"
-        placeholder="Reason (Optional)"
-        className="border p-2 w-full"
-        onChange={handleChange}
-        value={formData.reason}
-      />
-      <Button type="submit">Submit</Button>
+    <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-xl p-6 space-y-4 border border-gray-200">
+
+      {/* Form Fields */}
+      <div className="grid gap-4">
+        <Input type="date" name="startDate" required value={formData.startDate} onChange={handleChange} />
+        <Input type="date" name="endDate" required value={formData.endDate} onChange={handleChange} />
+        <textarea
+          name="reason"
+          placeholder="Reason (Optional)"
+          className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700 transition"
+          rows={3}
+          onChange={handleChange}
+          value={formData.reason}
+        />
+      </div>
+
+      {/* Submit Button */}
+      <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 transition">
+        Submit Request
+      </Button>
     </form>
   );
 };

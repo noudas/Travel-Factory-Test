@@ -9,25 +9,27 @@ const Accordion: React.FC<AccordionProps> = ({ title, children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border rounded-lg shadow-md">
+    <div className="border-b border-gray-300">
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full text-left bg-blue-500 text-white p-3 flex justify-between items-center"
+        className="w-full flex justify-between items-center py-3 text-gray-800 hover:text-blue-500 transition-colors"
       >
-        <span>{title}</span>
-        <span className={`transform transition-transform ${isOpen ? "rotate-180" : "rotate-0"}`}>
+        <span className="font-medium">{title}</span>
+        <span
+          className={`transform transition-transform ${isOpen ? "rotate-180" : "rotate-0"}`}
+        >
           ▼
         </span>
       </button>
 
-      {/* Accordion Content with Smooth Transition */}
+      {/* Accordion Content */}
       <div
-        className={`grid transition-all duration-300 ease-in-out ${
-          isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-        }`}
+        className={`transition-all duration-300 ease-in-out ${
+          isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+        } overflow-hidden`}
       >
-        <div className="overflow-hidden p-4 bg-gray-100">{children}</div>
+        <div className="py-2 text-gray-600">{children}</div>
       </div>
     </div>
   );
